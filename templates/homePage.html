@@ -1,0 +1,16 @@
+{% extends 'basicHTML.html' %}
+{% block head %}
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='homePage.css') }}">
+{% endblock %}
+
+{% block title %}
+	Home Page
+{% endblock %}
+
+{% block body %}
+	<div class="title"> genius </div>
+
+	<div class="allSongsLink">
+		<a href="/songs"> List Of All Songs </a>
+	</div>
+{% endblock %}

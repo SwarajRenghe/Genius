@@ -1,0 +1,35 @@
+.title {
+  /* position: absolute; */
+  /* top: 12px; */
+  padding-bottom: 12px;
+  /* background-color: black; */
+  /* background-blend-mode: 500 soft-light; */
+  font-family: 'Playfair Display', serif;
+  margin: auto;
+  text-align: center;
+  color: red;
+  font-size: 12vh;
+}
+
+.allSongsLink {
+  padding-top: 4vh;
+  margin: auto;
+  text-align: center;
+  font-size: 6vh;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* .blackBar {
+  position: absolute;
+  top: 1px;
+  height: 180px;
+  background-color: black;
+} */

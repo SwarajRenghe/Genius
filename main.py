@@ -1,6 +1,6 @@
 from flask import Flask
-from flask import request, render_template, redirect, request, session, abort
-from flask.ext.security import SQLAlchemyUserDatastore, Security
+from flask import request, render_template, redirect, request, session, abort, url_for
+# from flask.ext.security import SQLAlchemyUserDatastore, Security
 import os
 from passlib.hash import sha256_crypt
 from songs import returnSongs
@@ -40,7 +40,8 @@ def loginFormHandling():
     s = Session()
     query = s.query(User).filter(User.username.in_([login_username]))
     result = query.first()
-    if result and sha256_crypt.verify(result.password, hash_password)
+    if result:
+    # if result and sha256_crypt.verify(result.password, hash_password)
     
     # if request.form['password'] == 'password' and request.form['username'] == 'username':
         session['logged_in'] = True

@@ -25,11 +25,12 @@ class User (Base):
     #     passive_deletes=True
     # )
 
-    def __init__(self, username, password, email):
+    def __init__(self):
+        pass
     
-        self.username = username
-        self.password = password
-        self.email = email
+        # self.username = username
+        # self.password = password
+        # self.email = email
 
 def addUserToDatabase (user):
     session = Session()
@@ -45,6 +46,13 @@ def addUserToDatabase (user):
     session.add(temp)
     session.commit()
     session.close()
+
+
+def printUserList ():
+    session = Session()
+    users = session.query(User).all()
+    for i in users:
+        print (str(i.username) + ". " + i.password + " - " + i.email + "," + i.bio)
 
 
 class Song (Base):
@@ -85,6 +93,7 @@ class songClass:
     artist = '';
     lyric = '';
 
+printUserList()
 
 if __name__ == "__main__":
     for i in range (2):

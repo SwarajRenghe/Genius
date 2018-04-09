@@ -1,13 +1,15 @@
 from flask import Flask
-from flask import request, render_template
+from flask import request, render_template, redirect, request, session, abort
+from flask.ext.security import SQLAlchemyUserDatastore, Security
+import os
+from passlib.hash import sha256_crypt
 from songs import returnSongs
-from sqLite import addSongToDatabase, printSongList, songClass
-# from sqLite import *
+# from sqLite import addSongToDatabase, printSongList, songClass
+from sqLite import *
 
 app = Flask (__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////./songs.db'
 
-# from sqlalchemy.orm import sessionmaker, relationship, backref
 # from sqlalchemy.ext.declarative import declarative_base
 # from sqlalchemy import create_engine, Column, String, Integer, ForeignKey
 
@@ -19,88 +21,97 @@ app = Flask (__name__)
 
 @app.route('/')
 def homePage():
-	return render_template ('homePage.html')
+    if not session.get('logged_in'):
+        return render_template('/login-page')
+    else:
+        return render_template ('homePage.html')
 
-@app.route('/addSong')
+
+@app.route('/login-page')
+def loginPage():
+    return render_template('login.html')
+
+@app.route('/login-form-handler', methods=['POST'])
+def loginFormHandling():
+    login_password = str(request.form['password'])
+    hash_password = sha256_crypt.encrypt(login_password) 
+    login_username = str(request.form['username'])
+    Session = sessionmaker(bind=engine)
+    s = Session()
+    query = s.query(User).filter(User.username.in_([login_username]))
+    result = query.first()
+    if result and sha256_crypt.verify(result.password, hash_password)
+    
+    # if request.form['password'] == 'password' and request.form['username'] == 'username':
+        session['logged_in'] = True
+        return redirect(url_for('homePage'))
+
+    else:
+        flash('Incorrect username or password entered.')
+        return redirect(url_for('loginPage'))
+
+
+@app.route('/registration-page')
+def register():
+    return render_template('register.html')
+
+
+@app.route('/registration-form-handler', methods=['POST'])
+def registrationFormHandling():
+    newUser = User()
+    newUser.username = str(request.form['username'])
+    pwd = str(request.form['password'])
+    newUser.password = sha256_crypt.encrypt(pwd)
+    newUser.email = str(request.form['email'])
+    newUser.bio = str(request.form['bio'])
+    addUserToDatabase(newUser)
+    return redirect(url_for('loginPage'))
+
+    
+@app.route('/logout-page')
+def logout():
+    session['logged_in'] = False
+    flash('You have succesfully logged out of your account')
+    return redirect(url_for('loginPage'))
+
+@app.route('/addSong/')
 def addSong():
-	return render_template('addSong.html')
+    return render_template('addSong.html')
 
-@app.route('/my-handling-form-page')
-def formHandling():
-	if request.method == 'POST':
-		user = request.form['songname']
-		return user
-	else:
-		user = request.args.get('songname')
-		return user
+@app.route('/my-handling-form-page/')
+def songFormHandling():
+    if request.method == 'POST':
+        user = request.form['songname']
+        return user
+    else:
+        user = request.args.get('songname')
+        return user
+
 
 #
 # @app.route('/welcome')
 # def welcome():
-# 	return 'you are on the welcome page'
+#   return 'you are on the welcome page'
 
 # @app.route('/user/')
 # @app.route('/user/<name>')
 # def helloName(name = None):
-# 	return render_template('users.html', name=name)
+#   return render_template('users.html', name=name)
 
-@app.route('/songs')
-@app.route('/songs/<int:songNumber>')
+@app.route('/songs/')
+@app.route('/songs/<int:songNumber>/')
 def song(songNumber = None):
-	if songNumber is None:
-		return render_template('allSongs.html', songs=songs)
-	else:
-		return render_template('individualSongs.html', songNumber=songNumber, songs=songs)
+    if songNumber is None:
+        return render_template('allSongs.html', songs=songs)
+    else:
+        return render_template('individualSongs.html', songNumber=songNumber, songs=songs)
 
-# @app.route('')
 
 @app.errorhandler(404)
 def page_not_found(e):
-	return "<h1> Error 404: Page not found </h1>"
-#
-#
-# engine = create_engine ("sqlite:///songs.db", echo=True)
-#
-# Base = declarative_base()
-#
-# class Song (Base):
-# 	__tablename__ = 'songs'
-# 	songnumber = Column ('songnumber', Integer, primary_key = True)
-# 	songname = Column ('songname', String)
-# 	artist = Column ('artist', String)
-# 	lyric = Column ('lyric', String)
-#
-#
-# song1 = Song()
-# # Song().storage.drop()
-# song1.songnumber = 0;
-# song1.songname = "Look What You Made Me Do"
-# song1.artist = "Taylor Swift"
-# song1.lyric = "Lorem ipsum dolor sit amet"
-# #
-#
-# Base.metadata.create_all(engine)
-#
-#
-# # Adding a couple of songs to the table
-# Session = sessionmaker(bind=engine)
-# session = Session()
-#
-# # song2 = Song ()
-# # song2.songNumber = 2;
-# # song2.songname = "Say Amen"
-# # song2.artist = "PANIC! At The Disco"
-# # song2.lyric = "Lorem ipsum dolor sit amets"
-#
-# session.add(song1)
-# # session.add(song2)
-#
-# session.commit()
-# session.close()
-#
-#
-#
-#
+    return "<h1> Error 404: Page not found </h1>"
+
 
 if __name__ == "__main__":
-	app.run (debug=True)
+    app.secret_key = os.urandom(12)
+    app.run (debug=True)

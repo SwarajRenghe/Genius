@@ -1,0 +1,28 @@
+{% extends 'basicHTML.html' %}
+
+{% block head %}
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='addSong.css') }}">
+{% endblock %}
+  
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+  <form action="http://localhost:5000/registration-form-handler" method="POST">
+    <fieldset>
+      <legend>Create your Genius account here:</legend>
+        <input type="text" name="username" autofocus placeholder="Username" required>
+          <br>
+
+        <input type="text" name="email" autofocus placeholder="Email-Id" required>
+          <br>
+        <input type="text" name="password" autofocus placeholder="Password" required>
+          <br>
+        <input type="text" name="password" autofocus placeholder="Re-enter Password" required>
+          <br>
+        <input type="text" name="bio" autofocus placeholder="A brief description of yourself">
+        <input type="submit" value="Register">
+    </fieldset>
+  </form>
+{% endblock %}

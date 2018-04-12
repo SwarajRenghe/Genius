@@ -1,0 +1,22 @@
+.songTitle {
+  margin: auto;
+  text-align: center;
+  font-size: 12vh;
+  color: red;
+}
+
+.lyrics {
+  margin: auto;
+  font-size: 4vh;
+  width: 50%;
+  text-align: justify;
+  color: blue;
+}
+
+.artistName {
+  margin: auto;
+  text-align: center;
+  padding: 1vh;
+  font-size: 8vh;
+  /* color: red; */
+}

@@ -1,0 +1,26 @@
+{% extends 'basicHTML.html' %}
+
+{% block head %}
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='addSong.css') }}">
+{% endblock %}
+  {{ songNumber }}
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+  <form action="http://localhost:5000/my-handling-form-page" method="GET">
+    <fieldset>
+      <legend>Personal information:</legend>
+        <input type="text" name="songname" autofocus placeholder="Song Name" required>
+          <br>
+        <input type="text" name="albumname" autofocus placeholder="Album Name" required>
+          <br>
+        <input type="text" name="artist" autofocus placeholder="Artist" required>
+          <br>
+        <input type="text" name="lyric" autofocus placeholder="Lyric" required>
+          <br>
+        <input type="submit" value="submit">
+    </fieldset>
+  </form>
+{% endblock %}

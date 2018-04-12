@@ -1,0 +1,16 @@
+{% extends 'basicHTML.html' %}
+
+{% block head %}
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='allSongs.css') }}">
+{% endblock %}
+
+{% block title %}
+  Songs
+{% endblock %}
+
+{% block body %}
+  {% for i in songs %}
+    <div class="list"> <a href='songs/{{ i.songNo }}'> {{ i.songNo }}. {{ i.songName }} - {{ i.artist }}</a> </div>
+    <br>
+  {% endfor %}
+{% endblock %}

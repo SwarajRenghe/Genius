@@ -1,0 +1,26 @@
+{% extends 'basicHTML.html' %}
+
+{% block head %}
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='addSong.css') }}">
+{% endblock %}
+  Login 
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+  <h1> GENIUS </h1>
+  <br><br>
+  <a href= 'http://localhost:5000/registration-page'> New user? Register. </a> 
+  <br> <br>
+  <form action="http://localhost:5000/login-page" method="POST">
+    <fieldset>
+      <legend>Login:</legend>
+        <input type="text" name="username" autofocus placeholder="Username" required>
+          <br>
+        <input type="password" name="password" autofocus placeholder="Password" required>
+          <br>
+        <input type="submit" value="Log In">
+    </fieldset>
+  </form>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'basicHTML.html' %}
+
+{% block head %}
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='individualSongs.css') }}">
+{% endblock %}
+  {{ songNumber }}
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+  {% for i in songs %}
+    {% if i.songNo == songNumber %}
+      <div class="songTitle"> {{ songNumber }}. {{ i.songName }} </div>
+      <br>
+      <div class="artistName"> {{ i.artist }} </div>
+      <br>
+      <div class="lyrics"> {{ i.lyric }} </div>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

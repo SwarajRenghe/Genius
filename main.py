@@ -8,16 +8,7 @@ from songs import returnSongs
 from sqLite import *
 
 app = Flask (__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////./songs.db'
 
-# from sqlalchemy.ext.declarative import declarative_base
-# from sqlalchemy import create_engine, Column, String, Integer, ForeignKey
-
-
-# user_agent = request.headers.get('User-Agent')
-# return '<p>Your browser is %s</p>' % user_agent
-
-# songs = returnSongs();
 
 @app.route('/')
 def homePage():
@@ -27,7 +18,7 @@ def homePage():
         return render_template ('homePage.html')
 
 
-@app.route('/login-page')
+@app.route('/login-page', methods=['POST','GET'])
 def loginPage():
     return render_template('login.html')
 
@@ -38,26 +29,27 @@ def loginFormHandling():
     login_username = str(request.form['username'])
     Session = sessionmaker(bind=engine)
     s = Session()
-    query = s.query(User).filter(User.username.in_([login_username]))
-    result = query.first()
-    if result:
-    # if result and sha256_crypt.verify(result.password, hash_password)
-    
-    # if request.form['password'] == 'password' and request.form['username'] == 'username':
-        session['logged_in'] = True
-        return redirect(url_for('homePage'))
+    try:
+        query = s.query(User).filter_by(username = login_username).first()
+        if var: 
+            session['logged_in'] = True
+            print "logged in"
+            # return redirect(url_for('homePage'))
+        else:
+            print 'Incorrect username or password entered.'
+            # return redirect(url_for('loginPage'))
 
-    else:
-        flash('Incorrect username or password entered.')
-        return redirect(url_for('loginPage'))
+    except AttributeError:
+        print 'Incorrect username or password entered.'
+        # return redirect(url_for('loginPage'))
 
 
-@app.route('/registration-page')
+@app.route('/registration-page', methods=['POST','GET'])
 def register():
     return render_template('register.html')
 
 
-@app.route('/registration-form-handler', methods=['POST'])
+@app.route('/registration-form-handler', methods=['POST','GET'])
 def registrationFormHandling():
     newUser = User()
     newUser.username = str(request.form['username'])
@@ -108,6 +100,17 @@ def song(songNumber = None):
         return render_template('individualSongs.html', songNumber=songNumber, songs=songs)
 
 
+@app.route('/user/<username>')
+# @login_required
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    posts = [
+        {'author': user, 'body': 'Test post #1'},
+        {'author': user, 'body': 'Test post #2'}
+    ]
+    return render_template('user.html', user=user, posts=posts)
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return "<h1> Error 404: Page not found </h1>"
@@ -115,4 +118,5 @@ def page_not_found(e):
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
-    app.run (debug=True)
+    # app.run(debug=True)
+    app.run (debug=True, threaded = True)

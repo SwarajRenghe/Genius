@@ -1,0 +1,20 @@
+{% extends 'basicHTML.html' %}
+
+{% block head %}
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='userPage.css') }}">
+{% endblock %}
+  {{name}}'s Profile 
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+   <h1>User: {{ user.username }}</h1>
+    <hr>
+    {% for post in posts %}
+    <p>
+    {{ post.author.username }} says: <b>{{ post.body }}</b>
+    </p>
+    {% endfor %}
+
+{% endblock %}

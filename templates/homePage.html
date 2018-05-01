@@ -8,19 +8,29 @@
 {% endblock %}
 
 {% block body %}
-  <div>
-      Microblog:
-      <a href="{{ url_for('index') }}">Home</a>
-      {% if current_user.is_anonymous %}
-      <a href="{{ url_for('login') }}">Login</a>
-      {% else %}
-      <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
-      <a href="{{ url_for('logout') }}">Logout</a>
-      {% endif %}
-    </div>
-	<div class="title"> genius </div>
 
-	<div class="allSongsLink">
-		<a href="/songs"> List Of All Songs </a>
-	</div>
+<div class="bg1"></div>
+
+
+<div class="Genius"> Genius </div>
+
+
+<div class="loginFormDiv">
+<form  action="http://localhost:5000/loginVerification" method='POST'>
+	<fieldset>
+		<!-- <legend> &nbsp; Song Information </legend> -->
+
+			<label for="username" style="font-size: 3vh;"> <b>  User Name </b> </label>
+			<input type="text" style="text-align: center" placeholder="Enter User Name" name="username" required>
+
+			<label for="password" style="font-size: 3vh;"> <b> Password </b> </label>
+			<input type="password" style="text-align: center;" placeholder="Enter Password" name="password" required>
+
+			<button type="submit" class="btn loginButton"> Login </button>
+			<br>
+			<a href="/addUser"> <button class="btn registerButton"> New User? Register Here! </button> </a>
+	</fieldset>
+</form>
+</div>
+
 {% endblock %}

@@ -1,42 +1,45 @@
 {% extends 'basicHTML.html' %}
 
 {% block head %}
-  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='addSong.css') }}">
+  <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='addUser.css') }}"> -->
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='addUser.css') }}">
 {% endblock %}
-  
 {% block title %}
-
-  Register User
+  Add User
 {% endblock %}
-
-
 
 {% block body %}
-  <form action="http://localhost:5000/registration-form-handler" method="POST" onsubmit="return checkForm(this);">
+<div class="bg1"> </div>
+
+<div class="Title"> Register </div>
+
+<div class="inputForm">
+  <form action="http://localhost:5000/newUserHandlingPage" method="POST" onsubmit="return checkForm(this);"
     <fieldset>
-      <legend>Create your Genius account here:</legend>
-        <input type="text" name="username" autofocus placeholder="Username" required>
+        <input type="text" name="username" autofocus placeholder="User Name" required>
+          <br>
+     <input type="text" name="email" placeholder="Email-Id" required>
+          <br>
+        <input type="password" name="pwd1" placeholder="Password" required>
+          <br>
+        <input type="password" name="pwd2" placeholder="Re-enter Password" required>
           <br>
 
-        <input type="text" name="email" autofocus placeholder="Email-Id" required>
-          <br>
-        <input type="password" name="pwd1" autofocus placeholder="Password" required>
-          <br>
-        <input type="password" name="pw2" autofocus placeholder="Re-enter Password" required>
+          <input type = "checkbox" name = "checkArtist" value = "checkArtist" style="font-size: 2vh "> I am an artist
           <br>
 
-          <input type = "checkbox" name = "checkArtist" value = "checkArtist"> I am an artist
-          <br>
-
-        <textarea name="bio" autofocus placeholder="A brief description of yourself" rows = "3">
+        <textarea name="bio" placeholder="A brief description of yourself" rows = "3" columns = "160">
         </textarea>
+        <input type="text" name="profilePicture" placeholder="Link to Profile Picture">
+          <br>
 
         <input type="submit" value="Register">
     </fieldset>
   </form>
+</div>
 
- <!--  <script type="text/javascript">
 
+  <script type="text/javascript">
   function checkForm(form)
   {
     if(form.username.value == "") {
@@ -50,7 +53,6 @@
       form.username.focus();
       return false;
     }
-
     if(form.pwd1.value != "" && form.pwd1.value == form.pwd2.value) {
       if(form.pwd1.value.length < 6) {
         alert("Error: Password must contain at least six characters!");
@@ -74,22 +76,15 @@
         form.pwd1.focus();
         return false;
       }
-      // re = /[A-Z]/;
-      // if(!re.test(form.pwd1.value)) {
-      //   alert("Error: password must contain at least one uppercase letter (A-Z)!");
-      //   form.pwd1.focus();
-      //   return false;
-      // }
+  
     } else {
       alert("Error: Please check that you've entered and confirmed your password!");
       form.pwd1.focus();
       return false;
     }
-
-    alert("You entered a valid password: " + form.pwd1.value);
+    // alert("You entered a valid password: " + form.pwd1.value);
     return true;
   }
-
-</script> -->
+</script>
   
 {% endblock %}
